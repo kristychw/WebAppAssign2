@@ -51,7 +51,12 @@ export class BusinessContactsComponent implements OnInit {
           (contact) => contact.id !== contactId
         );
         // Reload the page
-        window.location.reload();
+        const currentUrl = this.router.url;
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate([currentUrl]);
+          });
       },
       (error) => {
         console.error('Error occurred while deleting contact:', error);
