@@ -1,19 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-update-contact',
   templateUrl: './update-contact.component.html',
-  styleUrls: ['./update-contact.component.css']
+  styleUrls: ['./update-contact.component.css'],
 })
 export class UpdateContactComponent implements OnInit {
   contact: any = {};
-  
-  private apiUrl = 'http://localhost:4000/contacts'; // Update with your server's URL
-  
-  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
-  
+
+  // private apiUrl = 'http://localhost:4000/contacts'; // Update with your server's URL
+  private apiUrl = 'https://web-app-assign2-backend.vercel.app/contacts'; // Update with your server's URL
+
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private router: Router
+  ) {}
+
   ngOnInit() {
     const contactId = this.route.snapshot.paramMap.get('id');
     console.log(contactId);
@@ -27,7 +32,7 @@ export class UpdateContactComponent implements OnInit {
   loadContact(contactId: string) {
     const getContactUrl = `${this.apiUrl}/${contactId}`;
     console.log(getContactUrl);
-      this.http.get<any[]>(getContactUrl).subscribe(
+    this.http.get<any[]>(getContactUrl).subscribe(
       (data: any[]) => {
         this.contact = data;
       },
@@ -36,7 +41,6 @@ export class UpdateContactComponent implements OnInit {
       }
     );
   }
-  
 
   updateContact() {
     const updateUrl = `${this.apiUrl}/${this.contact._id}`;
@@ -73,4 +77,3 @@ export class UpdateContactComponent implements OnInit {
     this.router.navigate(['/businessContact']);
   }
 }
-

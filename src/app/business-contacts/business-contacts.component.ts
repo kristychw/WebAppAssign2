@@ -7,16 +7,20 @@ import { AuthService } from './auth.service';
 @Component({
   selector: 'app-business-contacts',
   templateUrl: './business-contacts.component.html',
-  styleUrls: ['./business-contacts.component.css']
+  styleUrls: ['./business-contacts.component.css'],
 })
-
-
 export class BusinessContactsComponent implements OnInit {
   contacts: any[] = []; // Initialize with an empty array
 
-  private apiUrl = 'http://localhost:4000/contacts'; // Update with your server's URL
+  private apiUrl = 'https://web-app-assign2-backend.vercel.app/contacts'; // Update with your server's URL
+  // private apiUrl = 'http://localhost:4000/contacts'; // Update with your server's URL
 
-  constructor(private http: HttpClient, private router: Router, private location: Location, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private location: Location,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.loadContacts();
@@ -43,7 +47,9 @@ export class BusinessContactsComponent implements OnInit {
     this.http.delete(deleteUrl).subscribe(
       () => {
         // Remove the deleted contact from the local contacts array
-        this.contacts = this.contacts.filter(contact => contact.id !== contactId);
+        this.contacts = this.contacts.filter(
+          (contact) => contact.id !== contactId
+        );
         // Reload the page
         window.location.reload();
       },
@@ -57,6 +63,4 @@ export class BusinessContactsComponent implements OnInit {
     this.authService.logout(); // Remove login information from local storage
     this.router.navigate(['login']);
   }
-
-
 }
