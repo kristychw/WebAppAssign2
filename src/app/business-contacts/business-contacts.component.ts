@@ -29,7 +29,14 @@ export class BusinessContactsComponent implements OnInit {
   loadContacts() {
     this.http.get<any[]>(this.apiUrl).subscribe(
       (data: any[]) => {
-        this.contacts = data;
+        this.contacts = data.sort((a, b) => {
+          // Sort the contacts alphabetically by name
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
       },
       (error) => {
         console.error('Error occurred while fetching contacts:', error);
